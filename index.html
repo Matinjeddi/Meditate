@@ -209,7 +209,7 @@
             background: rgba(255, 250, 240, 0.95);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.5s ease;
+            transition: all 2s ease;
             z-index: 100;
         }
 
@@ -221,7 +221,7 @@
         .confirmation-content {
             text-align: center;
             transform: scale(0.8);
-            transition: transform 0.5s ease;
+            transition: transform 2s ease;
         }
 
         .confirmation.show .confirmation-content {
@@ -381,7 +381,9 @@
             if (textarea.value.trim() === '') return;
             
             document.getElementById('confirmation').classList.add('show');
-            textarea.value = '';
+            setTimeout(() => {
+                textarea.value = '';
+            }, 1600);
         }
 
         function closeConfirmation() {
