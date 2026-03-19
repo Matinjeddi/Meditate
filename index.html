@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Space for Your Thoughts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 25%, #fdf2e9 50%, #fef9e7 75%, #fff8e1 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: relative;
+            padding: 20px;
+        }
+
+        .ambient-glow {
+            position: fixed;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 223, 128, 0.4) 0%, rgba(255, 200, 100, 0.2) 30%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        .ambient-glow-2 {
+            position: fixed;
+            bottom: -30%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 236, 179, 0.3) 0%, transparent 60%);
+            pointer-events: none;
+            animation: pulse 5s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            padding: 50px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            box-shadow: 
+                0 25px 80px rgba(255, 200, 100, 0.3),
+                0 10px 40px rgba(255, 180, 80, 0.15),
+                inset 0 0 60px rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 230, 180, 0.6);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sun-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            position: relative;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        .sun-icon svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.6));
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 200, 80, 0.9)); }
+        }
+
+        .prompt {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: #5d4e37;
+            margin-bottom: 30px;
+            font-weight: 300;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+        }
+
+        .writing-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 25px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #4a4a4a;
+            resize: vertical;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 0 2px 10px rgba(200, 180, 150, 0.1),
+                0 5px 20px rgba(255, 200, 100, 0.1);
+            font-family: 'Georgia', serif;
+        }
+
+        .writing-area::placeholder {
+            color: #b8a888;
+            font-style: italic;
+        }
+
+        .writing-area:focus {
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow: 
+                inset 0 2px 10px rgba(200, 180, 150, 0.1),
+                0 10px 40px rgba(255, 200, 100, 0.25),
+                0 0 0 3px rgba(255, 210, 130, 0.3);
+        }
+
+        .release-btn {
+            margin-top: 30px;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #ffd97d 0%, #ffca4e 50%, #ffc233 100%);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #5d4e37;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(255, 180, 50, 0.35),
+                inset 0 2px 0 rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+
+            .sun-icon {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 20px;
+            }
+
+            .prompt {
+                font-size: 1rem;
+                line-height: 1.7;
+                margin-bottom: 20px;
+            }
+
+            .writing-area {
+                min-height: 150px;
+                padding: 18px;
+                font-size: 1rem;
+            }
+
+            .release-btn {
+                padding: 15px 35px;
+                font-size: 1rem;
+            }
+
+            .confirmation h2 {
+                font-size: 1.5rem;
+            }
+
+            .confirmation p {
+                font-size: 1rem;
+            }
+        }
+
+        .release-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 40px rgba(255, 180, 50, 0.45),
+                inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .release-btn:active {
+            transform: translateY(0);
+        }
+
+        .confirmation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 250, 240, 0.95);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            z-index: 100;
+        }
+
+        .confirmation.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confirmation-content {
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.5s ease;
+        }
+
+        .confirmation.show .confirmation-content {
+            transform: scale(1);
+        }
+
+        .confirmation h2 {
+            font-size: 2rem;
+            color: #5d4e37;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .confirmation p {
+            font-size: 1.1rem;
+            color: #8b7355;
+            margin-bottom: 30px;
+        }
+
+        .confirmation .sun-icon {
+            width: 100px;
+            height: 100px;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, rgba(255, 220, 150, 0.8), transparent);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow"></div>
+    <div class="ambient-glow-2"></div>
+    <div class="floating-particles" id="particles"></div>
+
+    <div class="container">
+        <div class="sun-icon">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:#fff8e1"/>
+                        <stop offset="40%" style="stop-color:#ffeb99"/>
+                        <stop offset="100%" style="stop-color:#ffc107"/>
+                    </radialGradient>
+                    <filter id="sunGlow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <g filter="url(#sunGlow)">
+                    <circle cx="50" cy="50" r="22" fill="url(#sunGradient)"/>
+                    <g stroke="#ffc107" stroke-width="3" stroke-linecap="round">
+                        <line x1="50" y1="10" x2="50" y2="20"/>
+                        <line x1="50" y1="80" x2="50" y2="90"/>
+                        <line x1="10" y1="50" x2="20" y2="50"/>
+                        <line x1="80" y1="50" x2="90" y2="50"/>
+                        <line x1="21.7" y1="21.7" x2="28.8" y2="28.8"/>
+                        <line x1="71.2" y1="71.2" x2="78.3" y2="78.3"/>
+                        <line x1="21.7" y1="78.3" x2="28.8" y2="71.2"/>
+                        <line x1="71.2" y1="28.8" x2="78.3" y2="21.7"/>
+                    </g>
+                    <g stroke="#ffdb58" stroke-width="2" stroke-linecap="round" opacity="0.7">
+                        <line x1="35" y1="14" x2="38" y2="22"/>
+                        <line x1="65" y1="14" x2="62" y2="22"/>
+                        <line x1="86" y1="35" x2="78" y2="38"/>
+                        <line x1="86" y1="65" x2="78" y2="62"/>
+                        <line x1="65" y1="86" x2="62" y2="78"/>
+                        <line x1="35" y1="86" x2="38" y2="78"/>
+                        <line x1="14" y1="65" x2="22" y2="62"/>
+                        <line x1="14" y1="35" x2="22" y2="38"/>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <p class="prompt">
+            Write whatever is on your mind. A prayer, a confession, a worry, or a joy — 
+            let it flow freely here. Nothing is stored, nothing is sent. 
+            This space is yours alone.
+        </p>
+
+        <textarea class="writing-area" placeholder="Begin writing here..."></textarea>
+
+        <button class="release-btn" onclick="releaseThoughts()">Release into the Light</button>
+    </div>
+
+    <div class="confirmation" id="confirmation">
+        <div class="confirmation-content">
+            <div class="sun-icon">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <radialGradient id="sunGradient2" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" style="stop-color:#fff8e1"/>
+                            <stop offset="40%" style="stop-color:#ffeb99"/>
+                            <stop offset="100%" style="stop-color:#ffc107"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="22" fill="url(#sunGradient2)"/>
+                    <g stroke="#ffc107" stroke-width="3" stroke-linecap="round">
+                        <line x1="50" y1="10" x2="50" y2="20"/>
+                        <line x1="50" y1="80" x2="50" y2="90"/>
+                        <line x1="10" y1="50" x2="20" y2="50"/>
+                        <line x1="80" y1="50" x2="90" y2="50"/>
+                        <line x1="21.7" y1="21.7" x2="28.8" y2="28.8"/>
+                        <line x1="71.2" y1="71.2" x2="78.3" y2="78.3"/>
+                        <line x1="21.7" y1="78.3" x2="28.8" y2="71.2"/>
+                        <line x1="71.2" y1="28.8" x2="78.3" y2="21.7"/>
+                    </g>
+                </svg>
+            </div>
+            <h2>Released</h2>
+            <p>Your words have dissolved into light.</p>
+            <button class="release-btn" onclick="closeConfirmation()">Write Again</button>
+        </div>
+    </div>
+
+    <script>
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function releaseThoughts() {
+            const textarea = document.querySelector('.writing-area');
+            if (textarea.value.trim() === '') return;
+            
+            document.getElementById('confirmation').classList.add('show');
+            textarea.value = '';
+        }
+
+        function closeConfirmation() {
+            document.getElementById('confirmation').classList.remove('show');
+            document.querySelector('.writing-area').focus();
+        }
+
+        createParticles();
+    </script>
+</body>
+</html>
