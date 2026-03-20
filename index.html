@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Space for Your Thoughts</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='22' fill='%23ffc107'/><g stroke='%23ffc107' stroke-width='3' stroke-linecap='round'><line x1='50' y1='10' x2='50' y2='20'/><line x1='50' y1='80' x2='50' y2='90'/><line x1='10' y1='50' x2='20' y2='50'/><line x1='80' y1='50' x2='90' y2='50'/><line x1='21.7' y1='21.7' x2='28.8' y2='28.8'/><line x1='71.2' y1='71.2' x2='78.3' y2='78.3'/><line x1='21.7' y1='78.3' x2='28.8' y2='71.2'/><line x1='71.2' y1='28.8' x2='78.3' y2='21.7'/></g></svg>">
+    <link rel="icon" id="favicon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='22' fill='%23ffc107'/><g stroke='%23ffc107' stroke-width='3' stroke-linecap='round'><line x1='50' y1='10' x2='50' y2='20'/><line x1='50' y1='80' x2='50' y2='90'/><line x1='10' y1='50' x2='20' y2='50'/><line x1='80' y1='50' x2='90' y2='50'/><line x1='21.7' y1='21.7' x2='28.8' y2='28.8'/><line x1='71.2' y1='71.2' x2='78.3' y2='78.3'/><line x1='21.7' y1='78.3' x2='28.8' y2='71.2'/><line x1='71.2' y1='28.8' x2='78.3' y2='21.7'/></g></svg>">
     <style>
         * {
             margin: 0;
@@ -23,6 +23,11 @@
             overflow-y: auto;
             position: relative;
             padding: 20px;
+            transition: background 0.5s ease;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0a0a15 0%, #1a1a2e 25%, #16213e 50%, #1a1a2e 75%, #0a0a15 100%);
         }
 
         .ambient-glow {
@@ -35,6 +40,11 @@
             background: radial-gradient(circle, rgba(255, 223, 128, 0.4) 0%, rgba(255, 200, 100, 0.2) 30%, transparent 70%);
             pointer-events: none;
             animation: pulse 4s ease-in-out infinite;
+            transition: background 0.5s ease;
+        }
+
+        body.dark .ambient-glow {
+            background: radial-gradient(circle, rgba(100, 100, 180, 0.3) 0%, rgba(80, 80, 150, 0.15) 30%, transparent 70%);
         }
 
         .ambient-glow-2 {
@@ -46,6 +56,11 @@
             background: radial-gradient(circle, rgba(255, 236, 179, 0.3) 0%, transparent 60%);
             pointer-events: none;
             animation: pulse 5s ease-in-out infinite reverse;
+            transition: background 0.5s ease;
+        }
+
+        body.dark .ambient-glow-2 {
+            background: radial-gradient(circle, rgba(100, 100, 180, 0.2) 0%, transparent 60%);
         }
 
         @keyframes pulse {
@@ -69,9 +84,19 @@
             text-align: center;
             position: relative;
             z-index: 1;
+            transition: all 0.5s ease;
         }
 
-        .sun-icon {
+        body.dark .container {
+            background: rgba(20, 20, 40, 0.7);
+            box-shadow: 
+                0 25px 80px rgba(100, 100, 180, 0.2),
+                0 10px 40px rgba(80, 80, 150, 0.1),
+                inset 0 0 60px rgba(30, 30, 60, 0.5);
+            border: 1px solid rgba(100, 100, 180, 0.3);
+        }
+
+        .theme-icon {
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
@@ -79,15 +104,28 @@
             animation: glow 3s ease-in-out infinite;
         }
 
-        .sun-icon svg {
+        .theme-icon svg {
             width: 100%;
             height: 100%;
             filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.6));
         }
 
+        body.dark .theme-icon svg {
+            filter: drop-shadow(0 0 20px rgba(180, 180, 255, 0.6));
+        }
+
         @keyframes glow {
             0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 180, 50, 0.6)); }
             50% { filter: drop-shadow(0 0 40px rgba(255, 200, 80, 0.9)); }
+        }
+
+        body.dark .theme-icon {
+            animation: glowDark 3s ease-in-out infinite;
+        }
+
+        @keyframes glowDark {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(180, 180, 255, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(200, 200, 255, 0.9)); }
         }
 
         .prompt {
@@ -97,6 +135,12 @@
             margin-bottom: 30px;
             font-weight: 300;
             text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+            transition: color 0.5s ease;
+        }
+
+        body.dark .prompt {
+            color: #b8b8d0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .writing-area {
@@ -118,9 +162,21 @@
             font-family: 'Georgia', serif;
         }
 
+        body.dark .writing-area {
+            background: rgba(30, 30, 50, 0.6);
+            color: #d0d0e0;
+            box-shadow: 
+                inset 0 2px 10px rgba(0, 0, 0, 0.2),
+                0 5px 20px rgba(100, 100, 180, 0.1);
+        }
+
         .writing-area::placeholder {
             color: #b8a888;
             font-style: italic;
+        }
+
+        body.dark .writing-area::placeholder {
+            color: #6a6a8a;
         }
 
         .writing-area:focus {
@@ -129,6 +185,14 @@
                 inset 0 2px 10px rgba(200, 180, 150, 0.1),
                 0 10px 40px rgba(255, 200, 100, 0.25),
                 0 0 0 3px rgba(255, 210, 130, 0.3);
+        }
+
+        body.dark .writing-area:focus {
+            background: rgba(40, 40, 60, 0.85);
+            box-shadow: 
+                inset 0 2px 10px rgba(0, 0, 0, 0.2),
+                0 10px 40px rgba(100, 100, 180, 0.2),
+                0 0 0 3px rgba(100, 100, 180, 0.3);
         }
 
         .release-btn {
@@ -148,6 +212,13 @@
             letter-spacing: 0.5px;
         }
 
+        body.dark .release-btn {
+            background: linear-gradient(135deg, #4a4a8a 0%, #5a5a9a 50%, #6a6aaa 100%);
+            box-shadow: 
+                0 8px 25px rgba(100, 100, 180, 0.35),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
+        }
+
         /* Mobile responsiveness */
         @media (max-width: 600px) {
             .container {
@@ -155,7 +226,7 @@
                 border-radius: 20px;
             }
 
-            .sun-icon {
+            .theme-icon {
                 width: 80px;
                 height: 80px;
                 margin-bottom: 20px;
@@ -185,6 +256,20 @@
             .confirmation p {
                 font-size: 1rem;
             }
+
+            .theme-selection {
+                padding: 30px 20px;
+            }
+
+            .theme-options {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .theme-option {
+                width: 150px;
+                height: 150px;
+            }
         }
 
         .release-btn:hover {
@@ -192,6 +277,12 @@
             box-shadow: 
                 0 15px 40px rgba(255, 180, 50, 0.45),
                 inset 0 2px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        body.dark .release-btn:hover {
+            box-shadow: 
+                0 15px 40px rgba(100, 100, 180, 0.45),
+                inset 0 2px 0 rgba(255, 255, 255, 0.1);
         }
 
         .release-btn:active {
@@ -212,6 +303,10 @@
             visibility: hidden;
             transition: all 2s ease;
             z-index: 100;
+        }
+
+        body.dark .confirmation {
+            background: rgba(10, 10, 20, 0.95);
         }
 
         .confirmation.show {
@@ -236,13 +331,21 @@
             margin-bottom: 15px;
         }
 
+        body.dark .confirmation h2 {
+            color: #b8b8d0;
+        }
+
         .confirmation p {
             font-size: 1.1rem;
             color: #8b7355;
             margin-bottom: 30px;
         }
 
-        .confirmation .sun-icon {
+        body.dark .confirmation p {
+            color: #8888a0;
+        }
+
+        .confirmation .theme-icon {
             width: 100px;
             height: 100px;
         }
@@ -267,22 +370,173 @@
             animation: float 15s infinite ease-in-out;
         }
 
+        body.dark .particle {
+            background: radial-gradient(circle, rgba(180, 180, 255, 0.6), transparent);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
             90% { opacity: 1; }
             100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
         }
+
+        /* Theme Selection Screen */
+        .theme-selection {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+            z-index: 200;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .theme-selection.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .theme-selection-content {
+            text-align: center;
+        }
+
+        .theme-selection h2 {
+            font-size: 1.8rem;
+            color: #d0d0e0;
+            font-weight: 300;
+            margin-bottom: 50px;
+        }
+
+        .theme-options {
+            display: flex;
+            gap: 60px;
+            justify-content: center;
+        }
+
+        .theme-option {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .theme-option.light {
+            background: linear-gradient(135deg, #fef9e7 0%, #fdebd0 50%, #fff8e1 100%);
+            box-shadow: 0 10px 40px rgba(255, 200, 100, 0.4);
+        }
+
+        .theme-option.light:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(255, 200, 100, 0.6);
+            border-color: rgba(255, 200, 100, 0.8);
+        }
+
+        .theme-option.dark-opt {
+            background: linear-gradient(135deg, #0a0a15 0%, #1a1a2e 50%, #16213e 100%);
+            box-shadow: 0 10px 40px rgba(100, 100, 180, 0.4);
+        }
+
+        .theme-option.dark-opt:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(100, 100, 180, 0.6);
+            border-color: rgba(100, 100, 180, 0.8);
+        }
+
+        .theme-option svg {
+            width: 80px;
+            height: 80px;
+        }
+
+        .theme-option span {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .theme-option.light span {
+            color: #5d4e37;
+        }
+
+        .theme-option.dark-opt span {
+            color: #b8b8d0;
+        }
     </style>
 </head>
 <body>
+    <!-- Theme Selection Screen -->
+    <div class="theme-selection" id="themeSelection">
+        <div class="theme-selection-content">
+            <h2>What do you choose?</h2>
+            <div class="theme-options">
+                <div class="theme-option light" onclick="selectTheme('light')">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="sunGradientSelect" cx="50%" cy="50%" r="50%">
+                                <stop offset="0%" style="stop-color:#fff8e1"/>
+                                <stop offset="40%" style="stop-color:#ffeb99"/>
+                                <stop offset="100%" style="stop-color:#ffc107"/>
+                            </radialGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="22" fill="url(#sunGradientSelect)"/>
+                        <g stroke="#ffc107" stroke-width="3" stroke-linecap="round">
+                            <line x1="50" y1="10" x2="50" y2="20"/>
+                            <line x1="50" y1="80" x2="50" y2="90"/>
+                            <line x1="10" y1="50" x2="20" y2="50"/>
+                            <line x1="80" y1="50" x2="90" y2="50"/>
+                            <line x1="21.7" y1="21.7" x2="28.8" y2="28.8"/>
+                            <line x1="71.2" y1="71.2" x2="78.3" y2="78.3"/>
+                            <line x1="21.7" y1="78.3" x2="28.8" y2="71.2"/>
+                            <line x1="71.2" y1="28.8" x2="78.3" y2="21.7"/>
+                        </g>
+                    </svg>
+                    <span>The Light</span>
+                </div>
+                <div class="theme-option dark-opt" onclick="selectTheme('dark')">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="moonGradientSelect" cx="30%" cy="30%" r="60%">
+                                <stop offset="0%" style="stop-color:#e8e8f0"/>
+                                <stop offset="50%" style="stop-color:#c8c8e0"/>
+                                <stop offset="100%" style="stop-color:#a8a8d0"/>
+                            </radialGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="25" fill="url(#moonGradientSelect)"/>
+                        <circle cx="60" cy="45" r="18" fill="#1a1a2e"/>
+                        <circle cx="38" cy="42" r="3" fill="#c8c8e0" opacity="0.5"/>
+                        <circle cx="45" cy="60" r="4" fill="#c8c8e0" opacity="0.4"/>
+                        <circle cx="55" cy="55" r="2" fill="#c8c8e0" opacity="0.3"/>
+                        <circle cx="20" cy="25" r="1.5" fill="#e8e8f0" opacity="0.8"/>
+                        <circle cx="80" cy="30" r="1" fill="#e8e8f0" opacity="0.6"/>
+                        <circle x="75" cy="70" r="1.5" fill="#e8e8f0" opacity="0.7"/>
+                        <circle cx="25" cy="75" r="1" fill="#e8e8f0" opacity="0.5"/>
+                        <circle cx="15" cy="55" r="0.8" fill="#e8e8f0" opacity="0.6"/>
+                        <circle cx="85" cy="55" r="1.2" fill="#e8e8f0" opacity="0.7"/>
+                    </svg>
+                    <span>The Darkness</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="ambient-glow"></div>
     <div class="ambient-glow-2"></div>
     <div class="floating-particles" id="particles"></div>
 
     <div class="container">
-        <div class="sun-icon">
-            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <div class="theme-icon" id="mainIcon">
+            <!-- Sun icon (default) -->
+            <svg id="sunIcon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%">
                         <stop offset="0%" style="stop-color:#fff8e1"/>
@@ -321,6 +575,38 @@
                     </g>
                 </g>
             </svg>
+            <!-- Moon icon (hidden by default) -->
+            <svg id="moonIcon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <defs>
+                    <radialGradient id="moonGradient" cx="30%" cy="30%" r="60%">
+                        <stop offset="0%" style="stop-color:#e8e8f0"/>
+                        <stop offset="50%" style="stop-color:#c8c8e0"/>
+                        <stop offset="100%" style="stop-color:#a8a8d0"/>
+                    </radialGradient>
+                    <filter id="moonGlow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <g filter="url(#moonGlow)">
+                    <circle cx="50" cy="50" r="25" fill="url(#moonGradient)"/>
+                    <circle cx="62" cy="42" r="20" fill="#1a1a2e"/>
+                    <circle cx="38" cy="42" r="3" fill="#d8d8e8" opacity="0.5"/>
+                    <circle cx="45" cy="62" r="4" fill="#d8d8e8" opacity="0.4"/>
+                    <circle cx="55" cy="55" r="2" fill="#d8d8e8" opacity="0.3"/>
+                </g>
+                <circle cx="20" cy="25" r="1.5" fill="#e8e8f0" opacity="0.8"/>
+                <circle cx="80" cy="30" r="1" fill="#e8e8f0" opacity="0.6"/>
+                <circle cx="75" cy="75" r="1.5" fill="#e8e8f0" opacity="0.7"/>
+                <circle cx="25" cy="80" r="1" fill="#e8e8f0" opacity="0.5"/>
+                <circle cx="12" cy="55" r="0.8" fill="#e8e8f0" opacity="0.6"/>
+                <circle cx="88" cy="55" r="1.2" fill="#e8e8f0" opacity="0.7"/>
+                <circle cx="30" cy="15" r="0.6" fill="#e8e8f0" opacity="0.5"/>
+                <circle cx="70" cy="85" r="0.8" fill="#e8e8f0" opacity="0.6"/>
+            </svg>
         </div>
 
         <p class="prompt">
@@ -331,13 +617,13 @@
 
         <textarea class="writing-area" placeholder="Begin writing here..."></textarea>
 
-        <button class="release-btn" onclick="releaseThoughts()">Release into the Light</button>
+        <button class="release-btn" id="releaseBtn" onclick="releaseThoughts()">Release into the Light</button>
     </div>
 
     <div class="confirmation" id="confirmation">
         <div class="confirmation-content">
-            <div class="sun-icon">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <div class="theme-icon" id="confirmIcon">
+                <svg id="confirmSunIcon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <radialGradient id="sunGradient2" cx="50%" cy="50%" r="50%">
                             <stop offset="0%" style="stop-color:#fff8e1"/>
@@ -357,14 +643,61 @@
                         <line x1="71.2" y1="28.8" x2="78.3" y2="21.7"/>
                     </g>
                 </svg>
+                <svg id="confirmMoonIcon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                    <defs>
+                        <radialGradient id="moonGradient2" cx="30%" cy="30%" r="60%">
+                            <stop offset="0%" style="stop-color:#e8e8f0"/>
+                            <stop offset="50%" style="stop-color:#c8c8e0"/>
+                            <stop offset="100%" style="stop-color:#a8a8d0"/>
+                        </radialGradient>
+                    </defs>
+                    <circle cx="50" cy="50" r="25" fill="url(#moonGradient2)"/>
+                    <circle cx="62" cy="42" r="20" fill="#1a1a2e"/>
+                    <circle cx="38" cy="42" r="3" fill="#d8d8e8" opacity="0.5"/>
+                    <circle cx="45" cy="62" r="4" fill="#d8d8e8" opacity="0.4"/>
+                    <circle cx="55" cy="55" r="2" fill="#d8d8e8" opacity="0.3"/>
+                </svg>
             </div>
-            <h2>Released</h2>
-            <p>Your words have dissolved into light.</p>
+            <h2 id="confirmTitle">Released</h2>
+            <p id="confirmText">Your words have dissolved into light.</p>
             <button class="release-btn" onclick="closeConfirmation()">Write Again</button>
         </div>
     </div>
 
     <script>
+        let currentTheme = 'light';
+
+        const sunFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='22' fill='%23ffc107'/><g stroke='%23ffc107' stroke-width='3' stroke-linecap='round'><line x1='50' y1='10' x2='50' y2='20'/><line x1='50' y1='80' x2='50' y2='90'/><line x1='10' y1='50' x2='20' y2='50'/><line x1='80' y1='50' x2='90' y2='50'/><line x1='21.7' y1='21.7' x2='28.8' y2='28.8'/><line x1='71.2' y1='71.2' x2='78.3' y2='78.3'/><line x1='21.7' y1='78.3' x2='28.8' y2='71.2'/><line x1='71.2' y1='28.8' x2='78.3' y2='21.7'/></g></svg>";
+        
+        const moonFavicon = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='25' fill='%23c8c8e0'/><circle cx='62' cy='42' r='20' fill='%231a1a2e'/></svg>";
+
+        function selectTheme(theme) {
+            currentTheme = theme;
+            document.getElementById('themeSelection').classList.add('hidden');
+            
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+                document.getElementById('sunIcon').style.display = 'none';
+                document.getElementById('moonIcon').style.display = 'block';
+                document.getElementById('confirmSunIcon').style.display = 'none';
+                document.getElementById('confirmMoonIcon').style.display = 'block';
+                document.getElementById('releaseBtn').textContent = 'Release into the Night';
+                document.getElementById('confirmTitle').textContent = 'Released';
+                document.getElementById('confirmText').textContent = 'Your words have faded into the darkness.';
+                document.getElementById('favicon').href = moonFavicon;
+            } else {
+                document.body.classList.remove('dark');
+                document.getElementById('sunIcon').style.display = 'block';
+                document.getElementById('moonIcon').style.display = 'none';
+                document.getElementById('confirmSunIcon').style.display = 'block';
+                document.getElementById('confirmMoonIcon').style.display = 'none';
+                document.getElementById('releaseBtn').textContent = 'Release into the Light';
+                document.getElementById('confirmTitle').textContent = 'Released';
+                document.getElementById('confirmText').textContent = 'Your words have dissolved into light.';
+                document.getElementById('favicon').href = sunFavicon;
+            }
+        }
+
         function createParticles() {
             const container = document.getElementById('particles');
             for (let i = 0; i < 20; i++) {
@@ -384,7 +717,7 @@
             document.getElementById('confirmation').classList.add('show');
             setTimeout(() => {
                 textarea.value = '';
-            }, 1600);
+            }, 2000);
         }
 
         function closeConfirmation() {
