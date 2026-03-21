@@ -667,7 +667,7 @@
             </svg>
         </div>
 
-        <p class="prompt">
+        <p class="prompt" id="prompt">
             Write whatever is on your mind. A prayer, a confession, a worry, or a joy — 
             let it flow freely here. Nothing is stored, nothing is sent. 
             This space is yours alone.
@@ -739,6 +739,7 @@
                 document.getElementById('moonIcon').style.display = 'block';
                 document.getElementById('confirmSunIcon').style.display = 'none';
                 document.getElementById('confirmMoonIcon').style.display = 'block';
+                document.getElementById('prompt').textContent = 'Write whatever is in the shadows. A whisper, a secret, a weight, or a dream — let it settle here. Nothing is kept, nothing is seen. This darkness is yours alone.';
                 document.getElementById('releaseBtn').textContent = 'Release into the Night';
                 document.getElementById('confirmTitle').textContent = 'Released';
                 document.getElementById('confirmText').textContent = 'Your words have faded into the darkness.';
