@@ -1,0 +1,1 @@
+This site is available on https://matinjeddi.github.io/Meditate as a Github pages site.
