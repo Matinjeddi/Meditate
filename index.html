@@ -689,7 +689,7 @@
             This space is yours alone.
         </p>
 
-        <textarea class="writing-area" placeholder="Begin writing here..."></textarea>
+        <textarea class="writing-area" placeholder="Begin writing here..." autocomplete="off"></textarea>
 
         <button class="release-btn" id="releaseBtn" onclick="releaseThoughts()">Release into the Light</button>
     </div>
@@ -790,9 +790,8 @@
             if (textarea.value.trim() === '') return;
             
             document.getElementById('confirmation').classList.add('show');
-            setTimeout(() => {
-                textarea.value = '';
-            }, 2000);
+            textarea.value = '';
+            
         }
 
         function closeConfirmation() {
